@@ -5,10 +5,12 @@ class Game
     @@fedback = []
   end
 
+  # player guess
   def self.human_answer(ans)
     @human_ans = ans
   end
 
+  # computer generated code
   def self.comp_code(code)
     @computer_code = code
   end
@@ -19,25 +21,20 @@ class Game
   end
 
   # black if the colors are in the right place, white if the color is in the code but in the wrong place
-  def self.black_fedback
-    @human_ans.each_with_index do |arr1, i1|
-      @computer_code.each_with_index do |arr2, i2|
-        @@fedback.push("B".colorize(:black)) if arr1 == arr2 && i1 == i2
+
+  def self.feedback
+    @computer_code.length.times do |x|
+      if @computer_code[x] == @human_ans[x]
+        @@fedback.push("B")
+      elsif @computer_code.any?(@human_ans[x])
+        @@fedback.push("W")
       end
     end
   end
 
-  def self.white_fedback
-    @human_ans.each_with_index do |arr1, i1|
-      @computer_code.each_with_index do |arr2, i2|
-        @@fedback.push("W".colorize(:white)) if arr1 == arr2 && i1 != i2
-      end
-    end
-  end
+  def self.show_feedback
+    Game.feedback
 
-  def self.show_fedback
-    Game.black_fedback
-    Game.white_fedback
     puts @@fedback.join(" ")
   end
 
