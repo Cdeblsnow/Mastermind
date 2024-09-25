@@ -1,95 +1,89 @@
 class Game
-  @@fedback = []
-  @@machine_feedback = []
-  @@new_pool = []
-  attr_accessor :new_pool
-  def initialize #el problema es que esto pertenece a la clase que cree en main, no a la clase como tal
-    
-    
+  attr_accessor :new_pool, :player_guess, :current_code, :list
+
+  def initialize
+    @fedback = []
+    @machine_feedback = []
+    @new_pool = []
   end
 
-  def self.new_round
-    @@fedback = []
-    @@machine_feedback = []
-    
+  def new_round
+    @fedback = []
+    @machine_feedback = []
   end
 
-  def self.player_code(code)
-    @human_code = code
+  def list_of_guesses(list)
+    @list = list
+  end
+
+  def player_created_code(code)
+    @current_code = code
   end
 
   # player guess
-  def self.human_answer(ans)
-    @human_ans = ans
+  def current_player_guess(ans)
+    @player_guess = ans
   end
 
   # Generated code
-  def self.comp_code(code)
-    @computer_code = code
+  def comp_code(code)
+    @current_code = code
   end
 
-  def self.show
-    puts "#{@human_ans} human "
-    puts @computer_code
+  def show
+    puts "#{@player_guess} human "
+    puts "#{@current_code} machine "
   end
 
   # black if the colors are in the right place, white if the color is in the code but in the wrong place
- 
-  def self.feedback_pvsm
-    @computer_code.length.times do |x|
-      if @computer_code[x] == @human_ans[x]
-        @@fedback.push("B")
-      elsif @computer_code.any?(@human_ans[x])
-        @@fedback.push("W")
+
+  def feedback_pvsm
+    @current_code.length.times do |x|
+      if @current_code[x] == @player_guess[x]
+        @fedback.push("B")
+      elsif @current_code.any?(@player_guess[x])
+        @fedback.push("W")
       end
     end
   end
 
-  def self.feedback_mvsp
-      @list.length.times do |w|
-        @@machine_feedback = []
-      @human_ans.length.times do |x|
-        if  @human_ans[x] == @list[w][x]
-          @@machine_feedback.push("B")
-        elsif  @human_ans.include?(@list[w][x])
-          @@machine_feedback.push("W")
+  def feedback_mvsp
+    @list.length.times do |w|
+      @machine_feedback = []
+      @player_guess.length.times do |x|
+        if @player_guess[x] == @list[w][x]
+          @machine_feedback.push("B")
+        elsif @player_guess.include?(@list[w][x])
+          @machine_feedback.push("W")
         end
       end
-      
-       @@new_pool.push(@list[w]) if @@machine_feedback.sort == @@fedback.sort
+
+      @new_pool.push(@list[w]) if @machine_feedback.sort == @fedback.sort
     end
   end
 
-  def self.show_feedback
-    Game.feedback_pvsm
-
-    puts @@fedback.join(" ")
+  def show_feedback
+    puts @fedback.join(" ")
   end
 
-  def self.show_feedback_mvsp
-    Game.feedback_mvsp
-    p @@new_pool.length
+  def show_feedback_mvsp
+    p "the pool length is #{@new_pool.length}"
 
-    puts @@machine_feedback.join(" ")
+    puts "machine fedback is #{@machine_feedback.join(' ')} and fedback is #{@fedback.join(' ')}" # chang machine_feedback for feedback. delete method when everything works
   end
 
-  def self.win? #change computer por secret code 
-    return unless @computer_code == @human_ans
+  def win?
+    return unless @current_code == @player_guess
 
     true
   end
 
-  
-#necesito llamar Game.list al menos una vez
-  def self.list_of_guesses(list)
-    @list = list
-  end
-
   def update_list
-     unless @@new_pool.empty? 
-      @list = @@new_pool
-      @@new_pool = []
-     end
-     Machine.machine_new_guess(@list)
+    return if @new_pool.empty? # keep list if new pool empty, else replace list with new pool
+
+    # if not works try assign a copy of the original instead the variable itself
+
+    @list = @new_pool
+    @new_pool = []
   end
 end
