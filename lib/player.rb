@@ -11,12 +11,9 @@ class Player
   def get_answer(ans)
     @player_answer = ans.chars
     puts @player_answer
-    # Game.human_answer(@player_answer) <------
   end
 
   def player_made_code(code)
     @player_code = code.chars
-    # Game.comp_code(@player_code) <------
-    # Game.player_code(@player_code) <------
   end
 end

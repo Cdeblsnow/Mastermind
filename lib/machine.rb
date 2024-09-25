@@ -41,12 +41,11 @@ class Machine
 
   def machine_new_guess(list)
     @guess = []
+    p "new list first element #{list}"
     @guess = list[0]
-    p list[0]
   end
 
   def new_guess
-    # REMOVE Game.human_answer( @@guess) <------
     p "new guess #{@guess}"
   end
 

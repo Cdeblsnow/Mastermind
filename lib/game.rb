@@ -48,6 +48,7 @@ class Game
   end
 
   def feedback_mvsp
+    # will reduce the possibe guesses comparing the list against the current guess
     @list.length.times do |w|
       @machine_feedback = []
       @player_guess.length.times do |x|
@@ -79,11 +80,11 @@ class Game
   end
 
   def update_list
-    return if @new_pool.empty? # keep list if new pool empty, else replace list with new pool
-
-    # if not works try assign a copy of the original instead the variable itself
-
-    @list = @new_pool
-    @new_pool = []
+    if @new_pool.empty? == true # keep list if new pool empty, else replace list with new pool
+      @list
+    else
+      @list = @new_pool.dup
+      @new_pool = []
+    end
   end
 end

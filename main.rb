@@ -68,6 +68,9 @@ loop do
         game.update_list
         machine.machine_new_guess(game.list)
 
+        game.current_player_guess(machine.guess)
+        p "machine guess #{machine.guess}"
+
       end
     end
 
