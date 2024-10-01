@@ -30,16 +30,11 @@ class Game
     @current_code = code
   end
 
-  def show
-    puts "#{@player_guess} human "
-    puts "#{@current_code} machine "
-  end
-
   # black if the colors are in the right place, white if the color is in the code but in the wrong place
 
   def feedback_pvsm
     @current_code.length.times do |x|
-      if @current_code[x] == @player_guess[x]
+      if @current_code[x] == @player_guess[x] # need to re made
         @fedback.push("B")
       elsif @current_code.any?(@player_guess[x])
         @fedback.push("W")
@@ -49,32 +44,26 @@ class Game
 
   def feedback_mvsp
     # will reduce the possibe guesses comparing the list against the current guess
-    @list.length.times do |w|
+    @list.each do |pguess|
       @machine_feedback = []
       @player_guess.length.times do |x|
-        if @player_guess[x] == @list[w][x]
+        if @player_guess[x] == pguess[x]
           @machine_feedback.push("B")
-        elsif @player_guess.include?(@list[w][x])
+        elsif pguess.include?(@player_guess[x])
           @machine_feedback.push("W")
         end
       end
 
-      @new_pool.push(@list[w]) if @machine_feedback.sort == @fedback.sort
+      @new_pool.push(pguess) if @machine_feedback.sort == @fedback.sort
     end
   end
 
   def show_feedback
-    puts @fedback.join(" ")
-  end
-
-  def show_feedback_mvsp
-    p "the pool length is #{@new_pool.length}"
-
-    puts "machine fedback is #{@machine_feedback.join(' ')} and fedback is #{@fedback.join(' ')}" # chang machine_feedback for feedback. delete method when everything works
+    puts "feedback is #{@fedback.join(' ')}"
   end
 
   def win?
-    return unless @current_code == @player_guess
+    return false unless @current_code == @player_guess
 
     true
   end
