@@ -11,7 +11,6 @@ generated_code = machine.code_generator
 pool = machine.combination_generator
 pool = pool.difference([machine.first_guess])
 game.list_of_guesses(pool)
-p game.list.is_a?(Array)
 
 options = {
   "1" => "Player vs Machine",
@@ -49,19 +48,25 @@ loop do
 
   when "2"
     puts "Please enter your secret code"
-    puts "Avaible colors: #{machine.show_colors} "
+    puts "Avaible colors:  "
+    puts machine.show_colors
     puts "Remember: do not puts spaces between the letters and only pick four colors"
     secret_code = gets.chomp.upcase
     player.player_made_code(secret_code)
     game.player_created_code(player.player_code)
     game.current_player_guess(machine.first_guess)
     12.times do |i|
-      puts "Machine have #{12 - i} turns to guess the code"
-      machine.show_guess
+      puts "Machine have #{12 - i} turns to guess the code."
+
       machine.show_colors
+      puts ""
+      puts " #{'Machine has guessed:'.colorize(:yellow)}"
+      machine.show_guess
+      puts ""
 
       if game.win? == true
-        puts "Congratulations!, you have guessed the code"
+        puts "#{'Congratulations!'.colorize(:green)},you have guessed the code"
+        puts ""
         break
       else
         game.feedback_pvsm
@@ -72,7 +77,6 @@ loop do
         machine.machine_new_guess(game.list)
 
         game.current_player_guess(machine.guess)
-        p "machine guess #{machine.guess}"
 
       end
     end
