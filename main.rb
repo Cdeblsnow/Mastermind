@@ -7,8 +7,11 @@ require_relative "lib/player"
 game = Game.new
 player = Player.new
 machine = Machine.new
-game.list_of_guesses(machine.combination_generator)
 generated_code = machine.code_generator
+pool = machine.combination_generator
+pool = pool.difference([machine.first_guess])
+game.list_of_guesses(pool)
+p game.list.is_a?(Array)
 
 options = {
   "1" => "Player vs Machine",
@@ -53,7 +56,7 @@ loop do
     game.player_created_code(player.player_code)
     game.current_player_guess(machine.first_guess)
     12.times do |i|
-      puts "Machine have #{12 - i} turns to guess the code" # it is not working. wasting all the attemps. will have to stop before next itaration and check if list is updating
+      puts "Machine have #{12 - i} turns to guess the code"
       machine.show_guess
       machine.show_colors
 
@@ -78,6 +81,3 @@ loop do
     break
   end
 end
-
-# to do
-# it is not doing a new pick in machine.machine_new_guess(game.list)
