@@ -26,7 +26,6 @@ loop do
   case choice
   when "1"
     machine.code_generator
-    machine.show_code
     12.times do |i|
       puts "You have #{12 - i} turns to guess the code"
 
@@ -35,13 +34,13 @@ loop do
       player.get_answer(answer)
       game.current_player_guess(player.player_answer)
       game.comp_code(generated_code)
-      game.show
+      p generated_code
       if game.win? == true
         puts "Congratulations!, you have guessed the code"
         break
       else
         game.feedback_pvsm
-        game.show_feedback # try to fuse show feedback and feedback
+        game.show_feedback
         game.new_round
       end
     end
@@ -71,7 +70,7 @@ loop do
       else
         game.feedback_pvsm
         game.feedback_mvsp
-        game.show_feedback_mvsp
+        game.show_feedback
         game.new_round
         game.update_list
         machine.machine_new_guess(game.list)
