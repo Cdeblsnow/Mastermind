@@ -5,7 +5,7 @@ class Machine
   attr_accessor :code, :guess, :first_guess
 
   def initialize
-    @guess = []
+    @guess = %w[R R B B]
     @first_guess = %w[R R B B]
     @code_pool = %w[R B Y G P H]
     @colors = ["R".colorize(:red), "B".colorize(:blue), "Y".colorize(:yellow),
@@ -34,19 +34,9 @@ class Machine
     @pool_of_guesses
   end
 
-  def machine_first_guess
-    @guess = @first_guess
-    @first_guess
-  end
-
   def machine_new_guess(list)
     @guess = []
-    p "new list first element #{list}"
-    @guess = list[0]
-  end
-
-  def new_guess
-    p "new guess #{@guess}"
+    @guess = list.shift
   end
 
   def show_guess
