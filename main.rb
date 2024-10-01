@@ -25,7 +25,7 @@ loop do
 
   case choice
   when "1"
-    machine.code_generator
+    puts "Make a guess of four colors; for this game, the colors do not repeat "
     12.times do |i|
       puts "You have #{12 - i} turns to guess the code"
 
@@ -34,7 +34,6 @@ loop do
       player.get_answer(answer)
       game.current_player_guess(player.player_answer)
       game.comp_code(generated_code)
-      p generated_code
       if game.win? == true
         puts "Congratulations!, you have guessed the code"
         break
