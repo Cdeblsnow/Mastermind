@@ -25,10 +25,6 @@ class Machine
     @code = color_code.slice(0, 4)
   end
 
-  def show_code
-    puts @code
-  end
-
   def combination_generator
     @pool_of_guesses = @code_pool.repeated_permutation(4).to_a
     @pool_of_guesses
