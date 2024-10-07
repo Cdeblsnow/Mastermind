@@ -34,7 +34,7 @@ class Game
 
   def feedback_pvsm
     @current_code.length.times do |x|
-      if @current_code[x] == @player_guess[x] # need to re made
+      if @current_code[x] == @player_guess[x]
         @fedback.push("B")
       elsif @current_code.any?(@player_guess[x])
         @fedback.push("W")
